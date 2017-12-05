@@ -20,8 +20,10 @@ namespace NeuralNetworkPractice
         double alpha;
         #endregion
 
-        public NeuralNetwork()
+        public NeuralNetwork(int layerdepth = 2, int layercount = 3)
         {
+            layerDepth = layerdepth;
+            layerCount = layercount;
             InitializeFields();
         }
 
@@ -73,52 +75,6 @@ namespace NeuralNetworkPractice
             currentInput = 0;
             a = Enumerable.Repeat(0.0, 7).ToList();
             a[0] = 1;
-            x = new List<List<double>>
-            {
-                new List<double>
-                {
-                    0.0,
-                    0.0
-                },
-                new List<double>
-                {
-                    1.0,
-                    0.0
-                },
-                new List<double>
-                {
-                    0.0,
-                    1.0
-                },
-                new List<double>
-                {
-                    1.0,
-                    1.0
-                },
-            };
-            y = new List<List<double>>
-            {
-                new List<double>
-                {
-                    0.0,
-                    0.0
-                },
-                new List<double>
-                {
-                    1.0,
-                    1.0
-                },
-                new List<double>
-                {
-                    1.0,
-                    1.0
-                },
-                new List<double>
-                {
-                    1.0,
-                    1.0
-                }
-            };
             j = Enumerable.Repeat(0.0, 6).ToList();
             w = new List<List<double>>();
             List<double> temp = new List<double>();
@@ -148,14 +104,14 @@ namespace NeuralNetworkPractice
 #if DEBUG
             Console.WriteLine("W: {0}", HelperFunctions.ListToString(w));
 #endif
-            layerDepth = x[currentInput].Count;
-            layerCount = a.Count / layerDepth;
             alpha = 0.01;
         }
 
         #region Training
-        public void Train()
+        public void Train(List<List<double>> input, List<List<double>> expectedOutput)
         {
+            x = input;
+            y = expectedOutput;
             double max = 0.0;
             do
             {
